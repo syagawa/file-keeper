@@ -4,11 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "gulp start"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "syagawa",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "gulp": "^4.0.2",
     "gulp-rename": "^1.4.0",
