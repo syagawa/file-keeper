@@ -6,18 +6,44 @@ const fs = require("fs");
 const argv = require("yargs").argv;
 const path = require("path");
 
-const tgt = ["ws/**/*.psd","!ws/**/_*.psd"];
 const cwd = process.cwd();
-
-console.log(process.argv);
-console.log(argv);
-
-const numPad = 5;
 const cache = {};
+
+let tgt = ["ws/**/*.psd","!ws/**/_*.psd"];
+let numPad = 5;
+
+let mode = "datetime";
+if(argv.mode === "number"){
+  mode = "number";
+}
+
+const modes = {
+  datetime: {
+    format: function(name){
+      const now = new Date();
+      return dateFormat(now, "yyyymmdd_HHMMss");
+    }
+  },
+  number: {
+    format: function(name){
+      let number = 0;
+      incrementNumber("dist", name);
+      if(cache[name]){
+        number = cache[name].number;
+      }else{
+        cache[name] = { number: number};
+      }
+      number++;
+      const str = String(number).padStart(5, 0);
+      cache[name].number = number;
+      return str;
+    }
+  }
+};
+
 
 function incrementNumber(dir, filename){
   const files = fs.readdirSync(path.join(cwd, dir));
-  console.log(files);
   const list = files.filter(function(f){
     return f.includes(filename);
   });
@@ -49,34 +75,6 @@ function incrementNumber(dir, filename){
   }
 }
 
-const modes = {
-  datetime: {
-    format: function(name){
-      const now = new Date();
-      return dateFormat(now, "yyyymmdd_HHMMss");
-    }
-  },
-  number: {
-    format: function(name){
-      let number = 0;
-      incrementNumber("dist", name);
-      if(cache[name]){
-        number = cache[name].number;
-      }else{
-        cache[name] = { number: number};
-      }
-      number++;
-      const str = String(number).padStart(5, 0);
-      cache[name].number = number;
-      return str;
-    }
-  }
-};
-
-let mode = "datetime";
-if(argv.mode === "number"){
-  mode = "number";
-}
 
 function copy(p){
   const file = p.path;
