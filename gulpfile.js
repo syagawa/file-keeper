@@ -11,25 +11,22 @@ const cache = {};
 
 let working_dir = "ws";
 let dist_dir = "dist";
-let ext = "psd";
-
-let tgt = [
-  working_dir + "/**/*." + ext,
-  "!" + working_dir + "/**/_*." + ext
-];
-
-
-
+let ext = "txt";
 let numPad = 5;
-
-
 let mode = "datetime";
+
 if(argv.mode === "number"){
   mode = "number";
 }
-
-
-
+if(argv.ext){
+  ext = argv.ext;
+}
+if(argv.wdir){
+  working_dir = argv.wdir;
+}
+if(argv.ddir){
+  dist_dir = argv.ddir;
+}
 
 
 const modes = {
@@ -55,9 +52,13 @@ const modes = {
     }
   }
 };
+const tgt = [
+  working_dir + "/**/*." + ext,
+  "!" + working_dir + "/**/_*." + ext
+];
+
 
 function init(){
-
   if(!fs.existsSync(working_dir)){
     fs.mkdirSync(working_dir);
   }
@@ -65,9 +66,6 @@ function init(){
   if(!fs.existsSync(dist_dir)){
     fs.mkdirSync(dist_dir);
   }
-
-
-
 }
 
 
