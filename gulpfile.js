@@ -9,13 +9,28 @@ const path = require("path");
 const cwd = process.cwd();
 const cache = {};
 
-let tgt = ["ws/**/*.psd","!ws/**/_*.psd"];
+let working_dir = "ws";
+let dist_dir = "dist";
+let ext = "psd";
+
+let tgt = [
+  working_dir + "/**/*." + ext,
+  "!" + working_dir + "/**/_*." + ext
+];
+
+
+
 let numPad = 5;
+
 
 let mode = "datetime";
 if(argv.mode === "number"){
   mode = "number";
 }
+
+
+
+
 
 const modes = {
   datetime: {
@@ -27,7 +42,7 @@ const modes = {
   number: {
     format: function(name){
       let number = 0;
-      incrementNumber("dist", name);
+      incrementNumber(dist_dir, name);
       if(cache[name]){
         number = cache[name].number;
       }else{
@@ -40,6 +55,20 @@ const modes = {
     }
   }
 };
+
+function init(){
+
+  if(!fs.existsSync(working_dir)){
+    fs.mkdirSync(working_dir);
+  }
+
+  if(!fs.existsSync(dist_dir)){
+    fs.mkdirSync(dist_dir);
+  }
+
+
+
+}
 
 
 function incrementNumber(dir, filename){
@@ -75,7 +104,6 @@ function incrementNumber(dir, filename){
   }
 }
 
-
 function copy(p){
   const file = p.path;
   return gulp.src(file)
@@ -83,7 +111,7 @@ function copy(p){
         path.basename += "_" + modes[mode].format(path.basename);
         console.log("FileName: " + path.basename);
       }))
-      .pipe(gulp.dest("dist"));
+      .pipe(gulp.dest(dist_dir));
 }
 
 function watchFile(){
@@ -93,5 +121,7 @@ function watchFile(){
 const start = gulp.parallel(watchFile);
 gulp.task("start", start);
 
+
+init();
 
 exports.default = start;
