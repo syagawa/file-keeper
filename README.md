@@ -6,6 +6,8 @@ Every time the file is saved, it is copied to the specified directory and the fi
 
 ## Usage
 
+require Node.js
+
 1. download & install
 
 ```bash
@@ -13,11 +15,7 @@ $ git clone <this.repository>
 
 $ cd <this.repository>
 
-## Change name and author, description, etc... in package.json
-
 $ npm install
-
-$ npm install -g gulp@4.0.2
 
 ```
 
@@ -35,7 +33,7 @@ Example:
 
 ```bash
 # start watch
-$ gulp --ext=psd --ddir=dist --wdir=ws
+$ node main.js --ext=psd --ddir=dist --wdir=ws
 
 # end watch
 ## `Ctrl + C`

@@ -11,9 +11,6 @@
   "dependencies": {
     "chokidar": "^3.0.2",
     "dateformat": "^3.0.3",
-    "gulp": "^4.0.2",
-    "gulp-rename": "^1.4.0",
-    "gulp-watch": "^5.0.1",
     "log4js": "^4.5.0",
     "yargs": "^13.2.4"
   }
