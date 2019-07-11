@@ -3,6 +3,7 @@ const dateFormat = require("dateformat");
 const fs = require("fs");
 const argv = require("yargs").argv;
 const path = require("path");
+const log4js = require("log4js");
 
 const cwd = process.cwd();
 const cache = {};
@@ -33,8 +34,12 @@ if(argv.ddir){
   dist_dir = argv.ddir;
 }
 
-console.log(argv);
-console.log(exts);
+const logger = log4js.getLogger("watch-copy");
+logger.level = "debug";
+
+logger.info("Target Files: " + exts.join(" "));
+logger.info(path.join(cwd, working_dir));
+logger.info(path.join(cwd, dist_dir));
 
 const modes = {
   datetime: {
@@ -66,7 +71,7 @@ const modes = {
         const current = list[list.length - 1];
         // const m = current.match(/\_[\d]{0,5}$/);
         const m = current.match("\_\[\\d\]{" + numPad + "}.*\$");
-        console.log("current", current);
+        // console.log("current", current);
         number = Number(m[0].replace(/^_/, "").replace(/\..*$/, ""));
         number++;
       }else{
@@ -85,8 +90,6 @@ const modes = {
   }
 };
 
-
-
 function init(){
   if(!fs.existsSync(working_dir)){
     fs.mkdirSync(working_dir);
@@ -95,6 +98,7 @@ function init(){
   if(!fs.existsSync(dist_dir)){
     fs.mkdirSync(dist_dir);
   }
+  logger.info("Start !!");
 }
 
 function getFileDetail(filepath){
@@ -112,7 +116,7 @@ function getFileDetail(filepath){
 function copy(detail, dir){
   const newname = detail.filename + "_" + modes[mode].format(detail) + detail.ename;
   fs.copyFileSync(detail.filepath, path.join(dir, newname) );
-  console.log("File Name: " + newname);
+  logger.info("Copied: " + path.join(cwd, dist_dir, newname));
 }
 
 function afterUpdate(filepath, p, exts){
@@ -120,6 +124,7 @@ function afterUpdate(filepath, p, exts){
   // console.log(filedetail);
   // console.log("exts", exts);
   if(exts.includes(filedetail.ename)){
+    logger.info("Added or Updated: " + path.join(cwd, filepath,));
     copy(filedetail, dist_dir);
   }
 }
@@ -131,12 +136,13 @@ chokidar.watch(
     ignored:  /node_modules\/.*|.git/
   })
   .on("add", function(filepath, p){
-    console.log("add", filepath, p);
+    // console.log("add", filepath, p);
     afterUpdate(filepath, p, exts);
   })
   .on("change", function(filepath, p){
-    console.log("change", filepath, p);
+    // console.log("change", filepath, p);
     afterUpdate(filepath, p, exts);
   });
 
 init();
+
