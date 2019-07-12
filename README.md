@@ -1,4 +1,4 @@
-# Watch And Copy files
+# watcpy is Watch And Copy files
 
 Watch a file and copy at every time of saving a file.
 
