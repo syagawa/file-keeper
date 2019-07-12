@@ -91,6 +91,13 @@ const modes = {
 };
 
 function init(){
+  if(working_dir === dist_dir){
+    logger.warn("Working directory and Dist directory are the same path! " + working_dir + ", " + dist_dir);
+    logger.warn("exit");
+    process.exit(1);
+  }
+
+
   if(!fs.existsSync(working_dir)){
     fs.mkdirSync(working_dir);
   }
