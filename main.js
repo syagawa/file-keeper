@@ -150,7 +150,7 @@ function afterUpdate(filepath, p, exts, obj){
 chokidar.watch(
   working_dir,
   {
-    ignored:  /node_modules\/.*|.git/
+    ignored:  new RegExp("node_modules\/.*|.git|" + dist_dir)
   })
   .on("add", function(filepath, p){
     // console.log("add", filepath, p);
