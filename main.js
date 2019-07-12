@@ -134,7 +134,7 @@ function copy(detail, dir){
   logger.info("Copied: " + path.join(cwd, dist_dir, newname));
 }
 
-function afterUpdate(filepath, p, exts){
+function afterUpdate(filepath, p, exts, obj){
   if(isFileInDist(filepath)){
     return;
   }
@@ -142,7 +142,7 @@ function afterUpdate(filepath, p, exts){
   // console.log(filedetail);
   // console.log("exts", exts);
   if(exts.includes(filedetail.ename)){
-    logger.info("Added or Updated: " + path.join(cwd, filepath,));
+    logger.info( obj.message + ": " + path.join(cwd, filepath,));
     copy(filedetail, dist_dir);
   }
 }
@@ -154,11 +154,11 @@ chokidar.watch(
   })
   .on("add", function(filepath, p){
     // console.log("add", filepath, p);
-    afterUpdate(filepath, p, exts);
+    afterUpdate(filepath, p, exts, { message: "Added" });
   })
   .on("change", function(filepath, p){
     // console.log("change", filepath, p);
-    afterUpdate(filepath, p, exts);
+    afterUpdate(filepath, p, exts, { message: "Updated" });
   });
 
 init();
