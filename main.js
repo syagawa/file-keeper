@@ -8,7 +8,7 @@ const log4js = require("log4js");
 const cwd = process.cwd();
 const cache = {};
 
-let working_dir = "ws";
+let working_dir = ".";
 let dist_dir = "dist";
 let exts = [
   ".psd",
@@ -120,6 +120,14 @@ function getFileDetail(filepath){
   };
 }
 
+function isFileInDist(filepath){
+  let reg = new RegExp("^" + dist_dir);
+  if(reg.test(filepath)){
+    return true;
+  }
+  return false;
+}
+
 function copy(detail, dir){
   const newname = detail.filename + "_" + modes[mode].format(detail) + detail.ename;
   fs.copyFileSync(detail.filepath, path.join(dir, newname) );
@@ -127,6 +135,9 @@ function copy(detail, dir){
 }
 
 function afterUpdate(filepath, p, exts){
+  if(isFileInDist(filepath)){
+    return;
+  }
   const filedetail = getFileDetail(filepath, p);
   // console.log(filedetail);
   // console.log("exts", exts);
@@ -135,7 +146,6 @@ function afterUpdate(filepath, p, exts){
     copy(filedetail, dist_dir);
   }
 }
-
 
 chokidar.watch(
   working_dir,
