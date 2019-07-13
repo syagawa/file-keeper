@@ -91,6 +91,21 @@ const modes = {
 };
 
 function init(){
+
+  chokidar.watch(
+    working_dir,
+    {
+      ignored:  new RegExp("node_modules\/.*|.git|" + dist_dir)
+    })
+    .on("add", function(filepath, p){
+      // console.log("add", filepath, p);
+      afterUpdate(filepath, p, exts, { message: "Added" });
+    })
+    .on("change", function(filepath, p){
+      // console.log("change", filepath, p);
+      afterUpdate(filepath, p, exts, { message: "Updated" });
+    });
+
   if(working_dir === dist_dir){
     logger.warn("Working directory and Dist directory are the same path! " + working_dir + ", " + dist_dir);
     logger.warn("exit");
@@ -147,19 +162,6 @@ function afterUpdate(filepath, p, exts, obj){
   }
 }
 
-chokidar.watch(
-  working_dir,
-  {
-    ignored:  new RegExp("node_modules\/.*|.git|" + dist_dir)
-  })
-  .on("add", function(filepath, p){
-    // console.log("add", filepath, p);
-    afterUpdate(filepath, p, exts, { message: "Added" });
-  })
-  .on("change", function(filepath, p){
-    // console.log("change", filepath, p);
-    afterUpdate(filepath, p, exts, { message: "Updated" });
-  });
-
 init();
 
+module.exports = init;
