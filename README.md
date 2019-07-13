@@ -8,26 +8,25 @@ Every time the file is saved, it is copied to the specified directory and the fi
 
 require Node.js
 
-1. download & install
+1. install
 
 ```bash
-$ git clone <this.repository>
-
-$ cd <this.repository>
-
-$ npm install
+$ npm install -g file-keeper
 ```
 
 2. develop
 
-Put the file you want to copy into cloned diretory
+Move to the directory containing the file you want to copy.
 
 Example: 
-  `xxx.psd`
+  `/home/xxx/xxx.psd`
 
 ```bash
+$ cd /home/xxx
+
 # start watch
-$ node main.js --ext=.psd --ddir=dist
+$ file-keeper
+## Note: 'dist/' directory is created in '/home/xxx/'
 
 # end watch
 ## `Ctrl + C`
