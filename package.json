@@ -14,7 +14,7 @@
   "dependencies": {
     "chokidar": "^3.0.2",
     "dateformat": "^3.0.3",
-    "log4js": "^4.5.0",
-    "yargs": "^13.2.4"
+    "log4js": "^4.5.1",
+    "yargs": "^13.3.0"
   }
 }
