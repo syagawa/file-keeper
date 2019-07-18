@@ -18,7 +18,8 @@ let exts = [
   ".doc",
   ".docx"
 ];
-let numPad = 5;
+let num_pad = 5;
+const max_num_pad = 20;
 let mode = "datetime";
 
 if(argv.mode === "number"){
@@ -32,6 +33,15 @@ if(argv.wdir){
 }
 if(argv.ddir){
   dist_dir = argv.ddir;
+}
+if(argv.numpad){
+  let num = Number(argv.numpad);
+  if(Number.isInteger(num)){
+    if(num > max_num_pad){
+      num = max_num_pad;
+    }
+    num_pad = num;
+  }
 }
 
 const logger = log4js.getLogger("watch-copy");
@@ -54,7 +64,7 @@ const modes = {
       const filename = detail.filename;
       const files = fs.readdirSync(path.join(cwd, dist_dir));
       const list = files.filter(function(f){
-        return new RegExp("^" + filename + "\_\\d{" + numPad + "}" + detail.ename + "$").test(f);
+        return new RegExp("^" + filename + "\_\\d{" + num_pad + "}" + detail.ename + "$").test(f);
       });
       // console.log("list", list);
       if(list.length !== 0){
@@ -70,7 +80,7 @@ const modes = {
 
         const current = list[list.length - 1];
         // const m = current.match(/\_[\d]{0,5}$/);
-        const m = current.match("\_\[\\d\]{" + numPad + "}.*\$");
+        const m = current.match("\_\[\\d\]{" + num_pad + "}.*\$");
         // console.log("current", current);
         number = Number(m[0].replace(/^_/, "").replace(/\..*$/, ""));
         number++;
@@ -83,7 +93,7 @@ const modes = {
       }else{
         cache[filename] = { number: number };
       }
-      const str = String(number).padStart(5, 0);
+      const str = String(number).padStart(num_pad, 0);
       cache[filename].number = number;
       return str;
     }
