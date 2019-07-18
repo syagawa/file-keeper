@@ -31,3 +31,41 @@ $ file-keeper
 # end watch
 ## `Ctrl + C`
 ```
+
+## Command Options
+
+**Consecutive Number**
+
+Output files in consecutive number.
+
+```bash
+$ file-keeper --mode=number
+```
+
+**File Type**
+
+You can specify the target file.
+If you do not add an option, watch default ".psd", ".ai", ".xls", ".xlsx", ".doc", ".docx".
+
+```bash
+# Watch only .jpg files
+$ file-keeper --exts=.jpg
+```
+
+**Working Directory**
+
+Specify a working directory.
+
+```bash
+# Watch ./example_folder
+$ file-keeper --wdir=example_folder
+```
+
+**Distribution Directory**
+
+Specify a distribution directory.
+
+```bash
+# Watch ./example_folder
+$ file-keeper --ddir=example_folder
+```
