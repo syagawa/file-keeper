@@ -102,6 +102,25 @@ const modes = {
 
 function init(){
 
+  if(working_dir === dist_dir){
+    logger.warn("Working directory and Dist directory are the same path! " + working_dir + ", " + dist_dir);
+    logger.warn("exit");
+    process.exit(1);
+  }
+
+  if(!fs.existsSync(working_dir)){
+    fs.mkdirSync(working_dir);
+  }
+
+  if(!fs.existsSync(dist_dir)){
+    fs.mkdirSync(dist_dir);
+  }
+
+  startWatch(working_dir, dist_dir, exts);
+  logger.info("Start !!");
+}
+
+function startWatch(working_dir, dist_dir, exts){
   chokidar.watch(
     working_dir,
     {
@@ -115,22 +134,6 @@ function init(){
       // console.log("change", filepath, p);
       afterUpdate(filepath, p, exts, { message: "Updated" });
     });
-
-  if(working_dir === dist_dir){
-    logger.warn("Working directory and Dist directory are the same path! " + working_dir + ", " + dist_dir);
-    logger.warn("exit");
-    process.exit(1);
-  }
-
-
-  if(!fs.existsSync(working_dir)){
-    fs.mkdirSync(working_dir);
-  }
-
-  if(!fs.existsSync(dist_dir)){
-    fs.mkdirSync(dist_dir);
-  }
-  logger.info("Start !!");
 }
 
 function getFileDetail(filepath){
