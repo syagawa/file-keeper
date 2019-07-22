@@ -175,6 +175,4 @@ function afterUpdate(filepath, p, exts, obj){
   }
 }
 
-init();
-
 module.exports = init;
