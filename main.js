@@ -100,7 +100,7 @@ const modes = {
   }
 };
 
-function init(){
+function run(){
 
   if(working_dir === dist_dir){
     logger.warn("Working directory and Dist directory are the same path! " + working_dir + ", " + dist_dir);
@@ -175,4 +175,4 @@ function afterUpdate(filepath, p, exts, obj){
   }
 }
 
-module.exports = init;
+module.exports = run;
