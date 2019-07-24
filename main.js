@@ -44,7 +44,7 @@ if(argv.numpad){
   }
 }
 
-const logger = log4js.getLogger("watch-copy");
+const logger = log4js.getLogger("file-keeper");
 logger.level = "debug";
 
 logger.info("Target Files: " + exts.join(" "));
