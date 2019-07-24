@@ -21,6 +21,7 @@ let exts = [
 let num_pad = 5;
 const max_num_pad = 20;
 let mode = "datetime";
+let clean_before_start = false;
 
 if(argv.mode === "number"){
   mode = "number";
@@ -42,6 +43,9 @@ if(argv.numpad){
     }
     num_pad = num;
   }
+}
+if(argv.clean){
+  clean_before_start = true;
 }
 
 const logger = log4js.getLogger("file-keeper");
@@ -116,8 +120,14 @@ function run(){
     fs.mkdirSync(dist_dir);
   }
 
+  if(clean_before_start){
+    logger.info("Clean! before Start");
+    cleanDirectory(dist_dir);
+  }
+
   startWatch(working_dir, dist_dir, exts);
   logger.info("Start !!");
+
 }
 
 function startWatch(working_dir, dist_dir, exts){
@@ -173,6 +183,17 @@ function afterUpdate(filepath, p, exts, obj){
     logger.info( obj.message + ": " + path.join(cwd, filepath,));
     copy(filedetail, dist_dir);
   }
+}
+
+function cleanDirectory(p){
+  const files = fs.readdirSync(p);
+  files.forEach(function(elm){
+    const file = path.join(p,elm);
+    if(fs.statSync(file).isFile()){
+      fs.unlinkSync(file);
+      logger.info("Remove: " + file);
+    }
+  });
 }
 
 module.exports = run;

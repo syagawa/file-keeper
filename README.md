@@ -69,3 +69,9 @@ Specify a distribution directory.
 # Watch ./example_folder
 $ file-keeper --ddir=example_folder
 ```
+
+**Clean Distribution Directory before Start**
+
+```bash
+$ file-keeper --clean
+```
