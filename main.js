@@ -168,7 +168,12 @@ function isFileInDist(filepath){
 
 function copy(detail, dir){
   const newname = detail.filename + "_" + modes[mode].format(detail) + detail.ename;
-  fs.copyFileSync(detail.filepath, path.join(dir, newname) );
+  try{
+    fs.copyFileSync(detail.filepath, path.join(dir, newname) );
+  }catch(e){
+    logger.error("Can't Copy: " + path.join(cwd, dist_dir, newname));
+  }
+
   logger.info("Copied: " + path.join(cwd, dist_dir, newname));
 }
 
