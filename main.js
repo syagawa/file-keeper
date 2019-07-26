@@ -23,8 +23,11 @@ const max_num_pad = 20;
 let mode = "datetime";
 let clean_before_start = false;
 
-if(argv.mode === "number"){
+if(argv.number || argv.mode === "number"){
   mode = "number";
+}
+if(argv.datetimer || argv.mode === "datetimer"){
+  mode = "datetimer";
 }
 if(argv.exts){
   exts = argv.exts.split(",");
