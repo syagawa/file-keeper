@@ -4,6 +4,8 @@ const fs = require("fs");
 const argv = require("yargs").argv;
 const path = require("path");
 const log4js = require("log4js");
+const updateNotifier = require('update-notifier');
+const pkg = require('./package.json');
 
 const cwd = process.cwd();
 const cache = {};
@@ -50,6 +52,8 @@ if(argv.numpad){
 if(argv.clean){
   clean_before_start = true;
 }
+
+updateNotify();
 
 const logger = log4js.getLogger("file-keeper");
 logger.level = "debug";
@@ -202,6 +206,21 @@ function cleanDirectory(p){
       logger.info("Remove: " + file);
     }
   });
+}
+
+function updateNotify(){
+  const notifier = updateNotifier({
+    pkg
+  });
+
+  const res = notifier.notify({
+    isGlobal: true,
+    boxenOpts: {padding: 1, margin: 1, align: 'center', borderColor: 'yellow', borderStyle: 'round'}
+  });
+  if(notifier.update){
+    console.log(`Update available ${notifier.update.current} -> ${notifier.update.latest} Run npm i -g ${notifier.update.name} to update`);
+  }
+
 }
 
 module.exports = run;
