@@ -111,32 +111,6 @@ const modes = {
   }
 };
 
-function run(){
-
-  if(working_dir === dist_dir){
-    logger.warn("Working directory and Dist directory are the same path! " + working_dir + ", " + dist_dir);
-    logger.warn("exit");
-    process.exit(1);
-  }
-
-  if(!fs.existsSync(working_dir)){
-    fs.mkdirSync(working_dir);
-  }
-
-  if(!fs.existsSync(dist_dir)){
-    fs.mkdirSync(dist_dir);
-  }
-
-  if(clean_before_start){
-    logger.info("Clean! before Start");
-    cleanDirectory(dist_dir);
-  }
-
-  startWatch(working_dir, dist_dir, exts);
-  logger.info("Start !!");
-
-}
-
 function startWatch(working_dir, dist_dir, exts){
   chokidar.watch(
     working_dir,
@@ -220,6 +194,32 @@ function updateNotify(){
   if(notifier.update){
     console.log(`Update available ${notifier.update.current} -> ${notifier.update.latest} Run npm i -g ${notifier.update.name} to update`);
   }
+
+}
+
+function run(){
+
+  if(working_dir === dist_dir){
+    logger.warn("Working directory and Dist directory are the same path! " + working_dir + ", " + dist_dir);
+    logger.warn("exit");
+    process.exit(1);
+  }
+
+  if(!fs.existsSync(working_dir)){
+    fs.mkdirSync(working_dir);
+  }
+
+  if(!fs.existsSync(dist_dir)){
+    fs.mkdirSync(dist_dir);
+  }
+
+  if(clean_before_start){
+    logger.info("Clean! before Start");
+    cleanDirectory(dist_dir);
+  }
+
+  startWatch(working_dir, dist_dir, exts);
+  logger.info("Start !!");
 
 }
 
