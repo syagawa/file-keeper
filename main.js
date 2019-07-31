@@ -219,7 +219,7 @@ function run(){
   }
 
   startWatch(working_dir, dist_dir, exts);
-  logger.info("Start !!");
+  logger.info(`Start ${pkg.name} version: ${pkg.version} !!`);
 
 }
 
