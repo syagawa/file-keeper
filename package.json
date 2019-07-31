@@ -1,7 +1,15 @@
 {
   "name": "file-keeper",
-  "version": "1.6.0",
-  "description": "",
+  "version": "1.6.1",
+  "description": "Watch a file and copy at every time of saving a file.",
+  "keywords": [
+    "file",
+    "save",
+    "psd",
+    "xls",
+    "doc",
+    "ai"
+  ],
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
