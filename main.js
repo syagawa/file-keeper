@@ -24,6 +24,7 @@ let num_pad = 5;
 const max_num_pad = 20;
 let mode = "datetime";
 let clean_before_start = false;
+let recursive = false;
 
 if(argv.number || argv.mode === "number"){
   mode = "number";
@@ -52,6 +53,11 @@ if(argv.numpad){
 if(argv.clean){
   clean_before_start = true;
 }
+
+if(argv.recursive || argv.r){
+  recursive = true;
+}
+
 
 updateNotify();
 
@@ -146,6 +152,13 @@ function isFileInDist(filepath){
   }
   return false;
 }
+function isChildInWorkingDir(filepath){
+  const dir = path.dirname(filepath);
+  if(dir === working_dir){
+    return true;
+  }
+}
+
 
 function copy(detail, dir){
   const newname = detail.filename + "_" + modes[mode].format(detail) + detail.ename;
@@ -162,9 +175,11 @@ function afterUpdate(filepath, p, exts, obj){
   if(isFileInDist(filepath)){
     return;
   }
+  if(!recursive && !isChildInWorkingDir(filepath)){
+    return;
+  }
+
   const filedetail = getFileDetail(filepath, p);
-  // console.log(filedetail);
-  // console.log("exts", exts);
   if(exts.includes(filedetail.ename)){
     logger.info( obj.message + ": " + path.join(cwd, filepath,));
     copy(filedetail, dist_dir);
