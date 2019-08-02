@@ -10,6 +10,10 @@ const pkg = require('./package.json');
 const cwd = process.cwd();
 const cache = {};
 
+const st = require("./settings.js")(argv);
+
+console.log(st);
+
 let working_dir = ".";
 let dist_dir = "dist";
 let exts = [
