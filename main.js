@@ -12,65 +12,14 @@ const cache = {};
 
 const st = require("./settings.js")(argv);
 
-console.log(st);
-
-let working_dir = ".";
-let dist_dir = "dist";
-let exts = [
-  ".psd",
-  ".ai",
-  ".xls",
-  ".xlsx",
-  ".doc",
-  ".docx"
-];
-let num_pad = 5;
-const max_num_pad = 20;
-let mode = "datetime";
-let clean_before_start = false;
-let recursive = false;
-
-if(argv.number || argv.mode === "number"){
-  mode = "number";
-}
-if(argv.datetimer || argv.mode === "datetimer"){
-  mode = "datetimer";
-}
-if(argv.exts){
-  exts = argv.exts.split(",");
-}
-if(argv.wdir){
-  working_dir = argv.wdir;
-}
-if(argv.ddir){
-  dist_dir = argv.ddir;
-}
-if(argv.numpad){
-  let num = Number(argv.numpad);
-  if(Number.isInteger(num)){
-    if(num > max_num_pad){
-      num = max_num_pad;
-    }
-    num_pad = num;
-  }
-}
-if(argv.clean){
-  clean_before_start = true;
-}
-
-if(argv.recursive || argv.r){
-  recursive = true;
-}
-
-
 updateNotify();
 
 const logger = log4js.getLogger("file-keeper");
 logger.level = "debug";
 
-logger.info("Target Files: " + exts.join(" "));
-logger.info(path.join(cwd, working_dir));
-logger.info(path.join(cwd, dist_dir));
+logger.info("Target Files: " + st.exts.join(" "));
+logger.info(path.join(cwd,st.working_dir));
+logger.info(path.join(cwd, st.dist_dir));
 
 const modes = {
   datetime: {
@@ -83,9 +32,9 @@ const modes = {
     format: function(detail){
       let number = 0;
       const filename = detail.filename;
-      const files = fs.readdirSync(path.join(cwd, dist_dir));
+      const files = fs.readdirSync(path.join(cwd, st.dist_dir));
       const list = files.filter(function(f){
-        return new RegExp("^" + filename + "\_\\d{" + num_pad + "}" + detail.ename + "$").test(f);
+        return new RegExp("^" + filename + "\_\\d{" + st.num_pad + "}" + detail.ename + "$").test(f);
       });
       // console.log("list", list);
       if(list.length !== 0){
@@ -101,7 +50,7 @@ const modes = {
 
         const current = list[list.length - 1];
         // const m = current.match(/\_[\d]{0,5}$/);
-        const m = current.match("\_\[\\d\]{" + num_pad + "}.*\$");
+        const m = current.match("\_\[\\d\]{" + st.num_pad + "}.*\$");
         // console.log("current", current);
         number = Number(m[0].replace(/^_/, "").replace(/\..*$/, ""));
         number++;
@@ -114,7 +63,7 @@ const modes = {
       }else{
         cache[filename] = { number: number };
       }
-      const str = String(number).padStart(num_pad, 0);
+      const str = String(number).padStart(st.num_pad, 0);
       cache[filename].number = number;
       return str;
     }
@@ -150,7 +99,7 @@ function getFileDetail(filepath){
 }
 
 function isFileInDist(filepath){
-  let reg = new RegExp("^" + dist_dir);
+  let reg = new RegExp("^" + st.dist_dir);
   if(reg.test(filepath)){
     return true;
   }
@@ -158,35 +107,35 @@ function isFileInDist(filepath){
 }
 function isChildInWorkingDir(filepath){
   const dir = path.dirname(filepath);
-  if(dir === working_dir){
+  if(dir === st.working_dir){
     return true;
   }
 }
 
 
 function copy(detail, dir){
-  const newname = detail.filename + "_" + modes[mode].format(detail) + detail.ename;
+  const newname = detail.filename + "_" + modes[st.mode].format(detail) + detail.ename;
   try{
     fs.copyFileSync(detail.filepath, path.join(dir, newname) );
   }catch(e){
-    logger.error("Can't Copy: " + path.join(cwd, dist_dir, newname));
+    logger.error("Can't Copy: " + path.join(cwd, st.dist_dir, newname));
   }
 
-  logger.info("Copied: " + path.join(cwd, dist_dir, newname));
+  logger.info("Copied: " + path.join(cwd, st.dist_dir, newname));
 }
 
 function afterUpdate(filepath, p, exts, obj){
   if(isFileInDist(filepath)){
     return;
   }
-  if(!recursive && !isChildInWorkingDir(filepath)){
+  if(!st.recursive && !isChildInWorkingDir(filepath)){
     return;
   }
 
   const filedetail = getFileDetail(filepath, p);
   if(exts.includes(filedetail.ename)){
     logger.info( obj.message + ": " + path.join(cwd, filepath,));
-    copy(filedetail, dist_dir);
+    copy(filedetail, st.dist_dir);
   }
 }
 
@@ -218,26 +167,26 @@ function updateNotify(){
 
 function run(){
 
-  if(working_dir === dist_dir){
-    logger.warn("Working directory and Dist directory are the same path! " + working_dir + ", " + dist_dir);
+  if(st.working_dir === st.dist_dir){
+    logger.warn("Working directory and Dist directory are the same path! " + st.working_dir + ", " + st.dist_dir);
     logger.warn("exit");
     process.exit(1);
   }
 
-  if(!fs.existsSync(working_dir)){
-    fs.mkdirSync(working_dir);
+  if(!fs.existsSync(st.working_dir)){
+    fs.mkdirSync(st.working_dir);
   }
 
-  if(!fs.existsSync(dist_dir)){
-    fs.mkdirSync(dist_dir);
+  if(!fs.existsSync(st.dist_dir)){
+    fs.mkdirSync(st.dist_dir);
   }
 
-  if(clean_before_start){
+  if(st.clean_before_start){
     logger.info("Clean! before Start");
-    cleanDirectory(dist_dir);
+    cleanDirectory(st.dist_dir);
   }
 
-  startWatch(working_dir, dist_dir, exts);
+  startWatch(st.working_dir, st.dist_dir, st.exts);
   logger.info(`Start ${pkg.name} version: ${pkg.version} !!`);
 
 }
