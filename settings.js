@@ -66,6 +66,9 @@ const makeObj = function(argv){
         return true;
       }
       return false;
+    },
+    get max_watch_file_count(){
+      return 100;
     }
   }
 };
