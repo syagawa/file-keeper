@@ -25,6 +25,12 @@ const modes = {
   datetime: {
     format: function(detail){
       const now = new Date();
+      const filename = detail.filename;
+      if(cache[filename]){
+        cache[filename] += 1;
+      }else{
+        cache[filename] = 1;
+      }
       return dateFormat(now, "yyyymmdd_HHMMss");
     }
   },
@@ -69,6 +75,7 @@ const modes = {
     }
   }
 };
+
 
 function startWatch(working_dir, dist_dir, exts){
   chokidar.watch(
@@ -124,6 +131,17 @@ function copy(detail, dir){
   logger.info("Copied: " + path.join(cwd, st.dist_dir, newname));
 }
 
+function isCacheLimitExceeded(detail){
+  const len = Object.keys(cache).length;
+  if(len >= st.max_watch_file_count){
+    const filename = detail.filename;
+    if(!cache[filename]){
+      return true;
+    }
+  }
+  return false;
+}
+
 function afterUpdate(filepath, p, exts, obj){
   if(isFileInDist(filepath)){
     return;
@@ -135,6 +153,10 @@ function afterUpdate(filepath, p, exts, obj){
   const filedetail = getFileDetail(filepath, p);
   if(exts.includes(filedetail.ename)){
     logger.info( obj.message + ": " + path.join(cwd, filepath,));
+    if(isCacheLimitExceeded(filedetail)){
+      logger.warn(`The maximum number of files that can be watched is ${st.max_watch_file_count}`);
+      return;
+    }
     copy(filedetail, st.dist_dir);
   }
 }
