@@ -54,8 +54,20 @@ const makeObj = function(argv){
         res = "number";
       }
       return res;
+    },
+    get recursive(){
+      if(argv.recursive || argv.r){
+        return true;
+      }
+      return false;
+    },
+    get clean_before_start(){
+      if(argv.clean){
+        return true;
+      }
+      return false;
     }
-  };
+  }
 };
 
 module.exports = makeObj;
