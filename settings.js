@@ -46,12 +46,12 @@ const makeObj = function(argv){
       return 20;
     },
     get mode(){
-      let res = "number";
-      if(argv.datetimer || argv.mode === "datetimer"){
-        res = "datetimer";
-      }
+      let res = "datetime";
       if(argv.number || argv.mode === "number"){
         res = "number";
+      }
+      if(argv.datetime || argv.mode === "datetime"){
+        res = "datetime";
       }
       return res;
     },
