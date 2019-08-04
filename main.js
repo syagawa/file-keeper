@@ -18,8 +18,8 @@ const logger = log4js.getLogger("file-keeper");
 logger.level = "debug";
 
 logger.info("Target Files: " + st.exts.join(" "));
-logger.info(path.join(cwd,st.working_dir));
-logger.info(path.join(cwd, st.dist_dir));
+logger.info(`Target Directory: ${path.join(cwd,st.working_dir)}`);
+logger.info(`Distribution Directory: ${path.join(cwd, st.dist_dir)}`);
 
 const modes = {
   datetime: {
