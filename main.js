@@ -17,10 +17,6 @@ updateNotify();
 const logger = log4js.getLogger("file-keeper");
 logger.level = "debug";
 
-logger.info("Target Files: " + st.exts.join(" "));
-logger.info(`Target Directory: ${path.join(cwd,st.working_dir)}`);
-logger.info(`Distribution Directory: ${path.join(cwd, st.dist_dir)}`);
-
 const modes = {
   datetime: {
     format: function(detail){
@@ -187,6 +183,15 @@ function updateNotify(){
 
 }
 
+function displayFirstMessage(){
+  logger.info(`Save File Mode: ${st.mode}`);
+  logger.info("Target Files: " + st.exts.join(" "));
+  logger.info(`Target Directory: ${path.join(cwd,st.working_dir)}`);
+  logger.info(`Distribution Directory: ${path.join(cwd, st.dist_dir)}`);
+  logger.info(`Start ${pkg.name} version: ${pkg.version} !!`);
+
+}
+
 function run(){
 
   if(st.working_dir === st.dist_dir){
@@ -209,7 +214,8 @@ function run(){
   }
 
   startWatch(st.working_dir, st.dist_dir, st.exts);
-  logger.info(`Start ${pkg.name} version: ${pkg.version} !!`);
+
+  displayFirstMessage();
 
 }
 
