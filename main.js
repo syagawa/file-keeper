@@ -184,10 +184,11 @@ function updateNotify(){
 }
 
 function displayFirstMessage(){
-  logger.info(`Save File Mode: ${st.mode}`);
-  logger.info("Target Files: " + st.exts.join(" "));
+  logger.info(`Save file mode: ${st.mode}`);
+  logger.info("Extensions of target file: " + st.exts.join(" "));
   logger.info(`Target Directory: ${path.join(cwd,st.working_dir)}`);
   logger.info(`Distribution Directory: ${path.join(cwd, st.dist_dir)}`);
+  logger.info(`Recursive: ${st.recursive}`);
   logger.info(`Start ${pkg.name} version: ${pkg.version} !!`);
 
 }
