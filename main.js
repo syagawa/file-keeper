@@ -9,6 +9,7 @@ const pkg = require('./package.json');
 
 const cwd = process.cwd();
 const cache = {};
+const initials = {};
 
 const st = require("./settings.js")(argv);
 
@@ -38,27 +39,22 @@ const modes = {
       const list = files.filter(function(f){
         return new RegExp("^" + filename + "\_\\d{" + st.num_pad + "}" + detail.ename + "$").test(f);
       });
-      // console.log("list", list);
       if(list.length !== 0){
         list.sort(function(a, b){
           if (a < b) {
-             return -1;
+            return -1;
           }
           if (a > b) {
-             return 1;
+            return 1;
           }
           return 0;
         });
 
         const current = list[list.length - 1];
-        // const m = current.match(/\_[\d]{0,5}$/);
         const m = current.match("\_\[\\d\]{" + st.num_pad + "}.*\$");
-        // console.log("current", current);
         number = Number(m[0].replace(/^_/, "").replace(/\..*$/, ""));
-        number++;
-      }else{
-        number++;
       }
+      number++;
 
       if(cache[filename]){
         cache[filename].number = number;
@@ -72,6 +68,32 @@ const modes = {
   }
 };
 
+function walkDir(p, filecb, errcb){
+  fs.readdir(p, function(err, files){
+    if(err){
+      errcb(err);
+      return;
+    }
+    files.forEach(function(f){
+      const fpath = path.join(p, f);
+      if(fs.statSync(fpath).isDirectory()){
+        walkDir(fpath, filecb);
+      }else{
+        filecb(fpath);
+      }
+    })
+  })
+};
+
+function setInitialFiles(){
+  const files = fs.readdirSync(cwd);
+  walkDir(cwd, function(f) {
+    console.log(f);
+  }, function(err) {
+    console.log("Receive err:" + err);
+  });
+
+}
 
 function startWatch(working_dir, dist_dir, exts){
   chokidar.watch(
@@ -80,11 +102,9 @@ function startWatch(working_dir, dist_dir, exts){
       ignored:  new RegExp("node_modules\/.*|.git|" + dist_dir)
     })
     .on("add", function(filepath, p){
-      // console.log("add", filepath, p);
       afterUpdate(filepath, p, exts, { message: "Added" });
     })
     .on("change", function(filepath, p){
-      // console.log("change", filepath, p);
       afterUpdate(filepath, p, exts, { message: "Updated" });
     });
 }
@@ -190,10 +210,11 @@ function displayFirstMessage(){
   logger.info(`Distribution Directory: ${path.join(cwd, st.dist_dir)}`);
   logger.info(`Recursive: ${st.recursive}`);
   logger.info(`Start ${pkg.name} version: ${pkg.version} !!`);
-
 }
 
 function run(){
+
+  setInitials();
 
   if(st.working_dir === st.dist_dir){
     logger.warn("Working directory and Dist directory are the same path! " + st.working_dir + ", " + st.dist_dir);
