@@ -69,6 +69,12 @@ const makeObj = function(argv){
     },
     get max_watch_file_count(){
       return 100;
+    },
+    get only_update(){
+      if(this.argv.onlyupdate){
+        return true;
+      }
+      return false;
     }
   }
 };
