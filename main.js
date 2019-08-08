@@ -96,10 +96,14 @@ function setInitialFiles(){
 }
 
 function startWatch(working_dir, dist_dir, exts){
-  chokidar.watch(
+  const watcher = chokidar.watch(
     working_dir,
     {
       ignored:  new RegExp("node_modules\/.*|.git|" + dist_dir)
+    })
+    .on("ready", function(){
+      console.log("ready",watcher.getWatched());
+      setInitialFiles();
     })
     .on("add", function(filepath, p){
       afterUpdate(filepath, p, exts, { message: "Added" });
@@ -213,8 +217,6 @@ function displayFirstMessage(){
 }
 
 function run(){
-
-  setInitials();
 
   if(st.working_dir === st.dist_dir){
     logger.warn("Working directory and Dist directory are the same path! " + st.working_dir + ", " + st.dist_dir);
