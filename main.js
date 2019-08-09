@@ -81,18 +81,22 @@ function walkDir(p, filecb, errcb){
       }else{
         filecb(fpath);
       }
-    })
-  })
-};
+    });
+  });
+}
 
 function setInitialFiles(){
   const files = fs.readdirSync(cwd);
   walkDir(cwd, function(f) {
-    console.log(f);
+    // console.log(f);
+    // console.log(path.extname(f));
+    if(st.exts.includes(path.extname(f))){
+      console.log(f);
+    }
+
   }, function(err) {
     console.log("Receive err:" + err);
   });
-
 }
 
 function startWatch(working_dir, dist_dir, exts){
