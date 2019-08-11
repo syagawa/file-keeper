@@ -111,6 +111,7 @@ function isInitialFile(p){
   return false;
 }
 
+
 async function startWatch(working_dir, dist_dir, exts){
   if(st.only_update){
     st.initials = await setInitialFiles();
@@ -125,7 +126,7 @@ async function startWatch(working_dir, dist_dir, exts){
       // console.log("ready",watcher.getWatched());
     })
     .on("add", function(filepath, p){
-      afterUpdate(filepath, p, exts, { message: "Added" });
+      afterUpdate(filepath, p, exts, { message: "Target file added" });
     })
     .on("change", function(filepath, p){
       afterUpdate(filepath, p, exts, { message: "Updated" });
@@ -244,9 +245,10 @@ function updateNotify(){
 function displayFirstMessage(){
   logger.info(`Save file mode: ${st.mode}`);
   logger.info("Extensions of target file: " + st.exts.join(" "));
-  logger.info(`Target Directory: ${path.join(cwd,st.working_dir)}`);
-  logger.info(`Distribution Directory: ${path.join(cwd, st.dist_dir)}`);
+  logger.info(`Target directory: ${path.join(cwd,st.working_dir)}`);
+  logger.info(`Distribution directory: ${path.join(cwd, st.dist_dir)}`);
   logger.info(`Recursive: ${st.recursive}`);
+  logger.info(`Only update: ${st.only_update}`);
   logger.info(`Start ${pkg.name} version: ${pkg.version} !!`);
 }
 
