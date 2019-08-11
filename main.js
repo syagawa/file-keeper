@@ -98,12 +98,19 @@ function setInitialFiles(){
     });
     resolve(initials);
   });
+}
 
+function isInitialFile(p){
+  if(st.initials[p]){
+    return true;
+  }
+  return false;
 }
 
 async function startWatch(working_dir, dist_dir, exts){
-  st.initials = await setInitialFiles();
-  console.info("initials", st.initials);
+  if(st.only_update){
+    st.initials = await setInitialFiles();
+  }
 
   const watcher = chokidar.watch(
     working_dir,
@@ -119,7 +126,6 @@ async function startWatch(working_dir, dist_dir, exts){
     .on("change", function(filepath, p){
       afterUpdate(filepath, p, exts, { message: "Updated" });
     });
-
 
 }
 
@@ -177,6 +183,11 @@ function afterUpdate(filepath, p, exts, obj){
     return;
   }
   if(!st.recursive && !isChildInWorkingDir(filepath)){
+    return;
+  }
+
+  const fullpath = path.join(cwd, filepath);
+  if(st.only_update && !isInitialFile(fullpath)){
     return;
   }
 
