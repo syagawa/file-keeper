@@ -38,9 +38,8 @@ const makeObj = function(argv){
           }
           return num;
         }
-      }else{
-        return 5;
       }
+      return 5;
     },
     get max_num_pad(){
       return 20;
