@@ -88,6 +88,10 @@ function setInitialFiles(){
   const initials = {};
   return new Promise(function(resolve, reject){
     walkDir(cwd, function(f) {
+      const relative_path = path.relative(cwd, f);
+      if(!isTargetFile(relative_path)){
+        return;
+      }
       if(st.exts.includes(path.extname(f))){
         initials[f] = true;
       }
@@ -156,6 +160,16 @@ function isFirstDegree(filepath){
   }
 }
 
+function isTargetFile(filepath){
+  if(isFileInDist(filepath)){
+    return false;
+  }
+  if(!st.recursive && !isFirstDegree(filepath)){
+    return false;
+  }
+  return true;
+}
+
 
 function copy(detail, dir){
   const newname = detail.filename + "_" + modes[st.mode].format(detail) + detail.ename;
@@ -180,16 +194,14 @@ function isCacheLimitExceeded(detail){
 }
 
 function afterUpdate(filepath, p, exts, obj){
-  if(isFileInDist(filepath)){
-    return;
-  }
-  if(!st.recursive && !isFirstDegree(filepath)){
+
+  if(!isTargetFile(filepath)){
     return;
   }
 
   const fullpath = path.join(cwd, filepath);
   if(st.only_update && !isInitialFile(fullpath)){
-    return;
+    return false;
   }
 
   const filedetail = getFileDetail(filepath, p);
