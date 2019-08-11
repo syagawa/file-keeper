@@ -9,7 +9,6 @@ const pkg = require('./package.json');
 
 const cwd = process.cwd();
 const cache = {};
-const initials = {};
 
 const st = require("./settings.js")(argv);
 
@@ -69,45 +68,50 @@ const modes = {
 };
 
 function walkDir(p, filecb, errcb){
-  fs.readdir(p, function(err, files){
-    if(err){
-      errcb(err);
+  const files = fs.readdirSync(p);
+  files.forEach(function(f){
+    if(!f){
+      errcb();
       return;
     }
-    files.forEach(function(f){
-      const fpath = path.join(p, f);
-      if(fs.statSync(fpath).isDirectory()){
-        walkDir(fpath, filecb);
-      }else{
-        filecb(fpath);
-      }
-    });
+    const fpath = path.join(p, f);
+    if(fs.statSync(fpath).isDirectory()){
+      walkDir(fpath, filecb);
+    }else{
+      filecb(fpath);
+    }
   });
 }
 
 function setInitialFiles(){
-  const files = fs.readdirSync(cwd);
-  walkDir(cwd, function(f) {
-    // console.log(f);
-    // console.log(path.extname(f));
-    if(st.exts.includes(path.extname(f))){
-      console.log(f);
-    }
-
-  }, function(err) {
-    console.log("Receive err:" + err);
+  let counter = 0;
+  const initials = {};
+  return new Promise(function(resolve, reject){
+    walkDir(cwd, function(f) {
+      if(st.exts.includes(path.extname(f))){
+        initials[f] = true;
+      }
+      counter++;
+    }, function(err) {
+      console.log("Receive err:" + err);
+      reject();
+    });
+    resolve(initials);
   });
+
 }
 
-function startWatch(working_dir, dist_dir, exts){
+async function startWatch(working_dir, dist_dir, exts){
+  st.initials = await setInitialFiles();
+  console.info("initials", st.initials);
+
   const watcher = chokidar.watch(
     working_dir,
     {
       ignored:  new RegExp("node_modules\/.*|.git|" + dist_dir)
     })
-    .on("ready", function(){
-      console.log("ready",watcher.getWatched());
-      setInitialFiles();
+    .on("ready", async function(){
+      // console.log("ready",watcher.getWatched());
     })
     .on("add", function(filepath, p){
       afterUpdate(filepath, p, exts, { message: "Added" });
@@ -115,6 +119,8 @@ function startWatch(working_dir, dist_dir, exts){
     .on("change", function(filepath, p){
       afterUpdate(filepath, p, exts, { message: "Updated" });
     });
+
+
 }
 
 function getFileDetail(filepath){
