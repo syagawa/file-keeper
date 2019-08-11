@@ -75,8 +75,9 @@ const makeObj = function(argv){
         return true;
       }
       return false;
-    }
-  }
+    },
+    initials: {}
+  };
 };
 
 module.exports = makeObj;
