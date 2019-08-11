@@ -71,7 +71,7 @@ const makeObj = function(argv){
       return 100;
     },
     get only_update(){
-      if(this.argv.onlyupdate || this.argv.noadd){
+      if(this.argv.onlyupdate || this.argv.noadd || this.argv.u){
         return true;
       }
       return false;

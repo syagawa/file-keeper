@@ -93,4 +93,7 @@ $ file-keeper -r
 $ file-keeper --onlyupdate
   or
 $ file-keeper --noadd
+  or
+$ file-keeper -u
+
 ```
