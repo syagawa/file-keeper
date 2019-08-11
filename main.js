@@ -148,7 +148,8 @@ function isFileInDist(filepath){
   }
   return false;
 }
-function isChildInWorkingDir(filepath){
+
+function isFirstDegree(filepath){
   const dir = path.dirname(filepath);
   if(dir === st.working_dir){
     return true;
@@ -182,7 +183,7 @@ function afterUpdate(filepath, p, exts, obj){
   if(isFileInDist(filepath)){
     return;
   }
-  if(!st.recursive && !isChildInWorkingDir(filepath)){
+  if(!st.recursive && !isFirstDegree(filepath)){
     return;
   }
 
