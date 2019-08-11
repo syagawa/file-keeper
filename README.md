@@ -85,3 +85,12 @@ $ file-keeper --recursive
   or
 $ file-keeper -r
 ```
+
+
+**For file updates only**
+
+```bash
+$ file-keeper --onlyupdate
+  or
+$ file-keeper --noadd
+```
