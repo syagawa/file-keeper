@@ -115,6 +115,12 @@ function isInitialFile(p){
 async function startWatch(working_dir, dist_dir, exts){
   if(st.only_update){
     st.initials = await setInitialFiles();
+    const initials_length = Object.keys(st.initials).length;
+    if(initials_length === 0){
+      displayFirstMessage("notargetfile");
+      process.exit(1);
+      return;
+    }
   }
 
   const watcher = chokidar.watch(
@@ -131,6 +137,8 @@ async function startWatch(working_dir, dist_dir, exts){
     .on("change", function(filepath, p){
       afterUpdate(filepath, p, exts, { message: "Updated" });
     });
+
+  displayFirstMessage();
 
 }
 
@@ -242,14 +250,19 @@ function updateNotify(){
 
 }
 
-function displayFirstMessage(){
-  logger.info(`Save file mode: ${st.mode}`);
-  logger.info("Extensions of target file: " + st.exts.join(" "));
-  logger.info(`Target directory: ${path.join(cwd,st.working_dir)}`);
-  logger.info(`Distribution directory: ${path.join(cwd, st.dist_dir)}`);
-  logger.info(`Recursive: ${st.recursive}`);
-  logger.info(`Only update: ${st.only_update}`);
-  logger.info(`Start ${pkg.name} version: ${pkg.version} !!`);
+function displayFirstMessage(type){
+    logger.info(`Save file mode: ${st.mode}`);
+    logger.info("Extensions of target file: " + st.exts.join(" "));
+    logger.info(`Target directory: ${path.join(cwd,st.working_dir)}`);
+    logger.info(`Distribution directory: ${path.join(cwd, st.dist_dir)}`);
+    logger.info(`Recursive: ${st.recursive}`);
+    logger.info(`Only update: ${st.only_update}`);
+    if(type === "notargetfile"){
+      logger.warn("No target file. exit...");
+    }else{
+      logger.info(`Start ${pkg.name} version: ${pkg.version} !!`);
+    }
+
 }
 
 function run(){
@@ -274,8 +287,6 @@ function run(){
   }
 
   startWatch(st.working_dir, st.dist_dir, st.exts);
-
-  displayFirstMessage();
 
 }
 
