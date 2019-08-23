@@ -75,6 +75,9 @@ const makeObj = function(argv){
       }
       return false;
     },
+    get interval(){
+      return 0;
+    },
     initials: {}
   };
 };
