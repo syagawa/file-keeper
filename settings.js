@@ -76,6 +76,13 @@ const makeObj = function(argv){
       return false;
     },
     get interval(){
+      if(this.argv.interval){
+        const ms = Number(this.argv.interval);
+        if(isNaN(ms)){
+          return 0;
+        }
+        return ms;
+      }
       return 0;
     },
     initials: {}
