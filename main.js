@@ -67,6 +67,10 @@ const modes = {
   }
 };
 
+function saveCache(filename, obj){
+
+}
+
 function walkDir(p, filecb, errcb){
   const files = fs.readdirSync(p);
   files.forEach(function(f){
@@ -110,7 +114,6 @@ function isInitialFile(p){
   }
   return false;
 }
-
 
 async function startWatch(working_dir, dist_dir, exts){
   if(st.only_update){
