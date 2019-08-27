@@ -68,7 +68,11 @@ const modes = {
 };
 
 function saveCache(filename, obj){
-
+  const c = {};
+  const keys = Object.keys(obj);
+  keys.forEach(function(k){
+    c[k] = obj[k];
+  });
 }
 
 function walkDir(p, filecb, errcb){
