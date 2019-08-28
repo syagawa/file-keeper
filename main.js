@@ -71,7 +71,10 @@ function saveCache(filename, obj){
   const c = {};
   const keys = Object.keys(obj);
   keys.forEach(function(k){
-    c[k] = obj[k];
+    if(!c[k]){
+      c[k] = [];
+    }
+    c[k].push(obj[k]);
   });
 }
 
