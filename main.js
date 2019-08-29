@@ -9,6 +9,7 @@ const pkg = require('./package.json');
 
 const cwd = process.cwd();
 const cache = {};
+const cache2 = {};
 
 const st = require("./settings.js")(argv);
 
@@ -68,7 +69,7 @@ const modes = {
 };
 
 function saveCache(filename, obj){
-  const c = {};
+  const c = cache2;
   const keys = Object.keys(obj);
   keys.forEach(function(k){
     if(!c[k]){
