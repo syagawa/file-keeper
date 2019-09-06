@@ -18,17 +18,19 @@ updateNotify();
 const logger = log4js.getLogger("file-keeper");
 logger.level = "debug";
 
+
 const modes = {
   datetime: {
     format: function(detail){
       const now = new Date();
       const filename = detail.filename;
+      const formatted = dateFormat(now, "yyyymmdd_HHMMss");
       if(cache[filename]){
-        cache[filename] += 1;
+        cache[filename].number += 1;
       }else{
-        cache[filename] = 1;
+        cache[filename] = { number: 1 };
       }
-      return dateFormat(now, "yyyymmdd_HHMMss");
+      return formatted;
     }
   },
   number: {
