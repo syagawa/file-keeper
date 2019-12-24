@@ -39,6 +39,8 @@ $ file-keeper
 Output files in consecutive number.
 
 ```bash
+$ file-keeper -n
+  or
 $ file-keeper --number
   or
 $ file-keeper --mode=number

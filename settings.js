@@ -46,7 +46,7 @@ const makeObj = function(argv){
     },
     get mode(){
       let res = "datetime";
-      if(argv.number || argv.mode === "number"){
+      if(argv.number || argv.mode === "number" || argv.n){
         res = "number";
       }
       if(argv.datetime || argv.mode === "datetime"){
