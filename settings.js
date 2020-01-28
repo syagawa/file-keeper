@@ -61,7 +61,7 @@ const makeObj = function(argv){
       return false;
     },
     get clean_before_start(){
-      if(argv.clean){
+      if(argv.clean || argv.c){
         return true;
       }
       return false;

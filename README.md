@@ -78,6 +78,8 @@ $ file-keeper --ddir=example_folder
 
 ```bash
 $ file-keeper --clean
+  or
+$ file-keeper -c
 ```
 
 **Recursively watch files in lower directories**
