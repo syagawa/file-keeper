@@ -15,9 +15,7 @@ const st = require("./settings.js")(argv);
 
 updateNotify();
 
-const logger = log4js.getLogger("file-keeper");
-logger.level = "debug";
-
+let logger;
 
 const modes = {
   datetime: {
@@ -279,6 +277,14 @@ function displayFirstMessage(type){
 }
 
 function run(){
+
+  if(st.is_save_log_file){
+    log4js.configure(st.log_settings.console_and_logfile);
+  }else{
+    log4js.configure(st.log_settings.only_console);
+  }
+  logger = log4js.getLogger("file-keeper");
+
 
   if(st.working_dir === st.dist_dir){
     logger.warn("Working directory and Dist directory are the same path! " + st.working_dir + ", " + st.dist_dir);

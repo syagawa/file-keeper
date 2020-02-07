@@ -85,6 +85,30 @@ const makeObj = function(argv){
       }
       return 0;
     },
+    get is_save_log_file(){
+      if(this.argv["save-log"]){
+        return true;
+      }
+      if(this.argv["save-logs"]){
+        return true;
+      }
+      return false;
+    },
+    log_settings:{
+      only_console:{
+        "appenders": { 
+          console: { type: "console" }
+        },
+        "categories": { default: { appenders: ["console"], level: "debug" } }
+      },
+      console_and_logfile: {
+        "appenders": { 
+          log: { type: "file", filename: "./file-keeper.log" },
+          console: { type: "console" }
+        },
+        "categories": { default: { appenders: ["log", "console"], level: "debug" } }
+      }
+    },
     initials: {}
   };
 };

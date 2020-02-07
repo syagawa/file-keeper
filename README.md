@@ -90,7 +90,6 @@ $ file-keeper --recursive
 $ file-keeper -r
 ```
 
-
 **For file updates only**
 
 ```bash
@@ -99,5 +98,12 @@ $ file-keeper --onlyupdate
 $ file-keeper --noadd
   or
 $ file-keeper -u
+```
 
+**Save log file**
+
+```bash
+$ file-keeper --save-log
+  or
+$ file-keeper --save-logs
 ```
