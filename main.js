@@ -262,12 +262,13 @@ function updateNotify(){
 }
 
 function displayFirstMessage(type){
-    logger.info(`Save file mode: ${st.mode}`);
-    logger.info("Extensions of target file: " + st.exts.join(" "));
-    logger.info(`Target directory: ${path.join(cwd,st.working_dir)}`);
-    logger.info(`Distribution directory: ${path.join(cwd, st.dist_dir)}`);
-    logger.info(`Recursive: ${st.recursive}`);
-    logger.info(`Only update: ${st.only_update}`);
+    logger.info(`Mode`);
+    logger.info(`-- Save file mode: ${st.mode}`);
+    logger.info(`-- Extensions of target file: ${st.exts.join(" ")}`);
+    logger.info(`-- Target directory: ${path.join(cwd,st.working_dir)}`);
+    logger.info(`-- Distribution directory: ${path.join(cwd, st.dist_dir)}`);
+    logger.info(`-- Recursive: ${st.recursive}`);
+    logger.info(`-- Only update: ${st.only_update}`);
     if(type === "notargetfile"){
       logger.warn("No target file. exit...");
     }else{
