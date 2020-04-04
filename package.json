@@ -1,6 +1,6 @@
 {
   "name": "file-keeper",
-  "version": "1.11.0",
+  "version": "1.11.1",
   "description": "Watch a file and copy at every time of saving a file.",
   "keywords": [
     "file",
@@ -30,8 +30,8 @@
   "dependencies": {
     "chokidar": "^3.3.1",
     "dateformat": "^3.0.3",
-    "log4js": "^6.1.0",
-    "update-notifier": "^4.0.0",
-    "yargs": "^15.1.0"
+    "log4js": "^6.1.2",
+    "update-notifier": "^4.1.0",
+    "yargs": "^15.3.1"
   }
 }
