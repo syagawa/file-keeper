@@ -22,6 +22,8 @@ const makeObj = function(argv){
         return [
           ".psd",
           ".ai",
+          ".xd",
+          ".sketch",
           ".xls",
           ".xlsx",
           ".doc",
