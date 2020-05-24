@@ -54,6 +54,10 @@ If you do not add an option, watch default ".psd", ".ai", ".xls", ".xlsx", ".doc
 ```bash
 # Watch only .jpg files
 $ file-keeper --exts=.jpg
+
+# Watch .jpg files & js files
+$ file-keeper --exts=.jpg.js
+
 ```
 
 **Working Directory**
