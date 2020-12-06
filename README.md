@@ -46,7 +46,7 @@ $ file-keeper --number
 $ file-keeper --mode=number
 ```
 
-**File Type**
+**File Types**
 
 You can specify the target file.
 If you do not add an option, watch default ".psd", ".ai", ".xls", ".xlsx", ".doc", ".docx".
