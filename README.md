@@ -49,7 +49,7 @@ $ file-keeper --mode=number
 **File Types**
 
 You can specify the target file.
-If you do not add an option, watch default ".psd", ".ai", ".xls", ".xlsx", ".doc", ".docx".
+If you do not add an option, watch default ".psd", ".ai", ".xd", ".sketch", ".xls", ".xlsx", ".doc", ".docx".
 
 ```bash
 # Watch only .jpg files
@@ -65,8 +65,8 @@ $ file-keeper --exts=.jpg.js
 Specify a working directory.
 
 ```bash
-# Watch ./example_folder
-$ file-keeper --wdir=example_folder
+# Watch ./example_working_folder
+$ file-keeper --wdir=example_working_folder
 ```
 
 **Distribution Directory**
@@ -74,8 +74,8 @@ $ file-keeper --wdir=example_folder
 Specify a distribution directory.
 
 ```bash
-# Watch ./example_folder
-$ file-keeper --ddir=example_folder
+# Watch ./example_dist_folder
+$ file-keeper --ddir=example_dist_folder
 ```
 
 **Clean Distribution Directory before Start**
