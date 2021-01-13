@@ -60,7 +60,7 @@ $ file-keeper --exts=.jpg.js
 
 ```
 
-**Working Directory**
+**Working(watching) Directory**
 
 Specify a working directory.
 
@@ -86,7 +86,7 @@ $ file-keeper --clean
 $ file-keeper -c
 ```
 
-**Recursively watch files in lower directories**
+**Recursively watch files in lower watching directories**
 
 ```bash
 $ file-keeper --recursive

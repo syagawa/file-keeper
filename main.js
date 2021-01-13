@@ -262,7 +262,7 @@ function updateNotify(){
 }
 
 function displayFirstMessage(type){
-    logger.info(`Mode`);
+    logger.info(`Modes`);
     logger.info(`-- Save file mode: ${st.mode}`);
     logger.info(`-- Extensions of target file: ${st.exts.join(" ")}`);
     logger.info(`-- Target directory: ${path.join(cwd,st.working_dir)}`);
@@ -274,7 +274,6 @@ function displayFirstMessage(type){
     }else{
       logger.info(`Start ${pkg.name} version: ${pkg.version} !!`);
     }
-
 }
 
 function run(){
@@ -288,7 +287,7 @@ function run(){
 
 
   if(st.working_dir === st.dist_dir){
-    logger.warn("Working directory and Dist directory are the same path! " + st.working_dir + ", " + st.dist_dir);
+    logger.warn(`Working directory and Distribution directory are the same path! ${st.working_dir}, ${st.dist_dir}`);
     logger.warn("exit");
     process.exit(1);
   }
