@@ -28,8 +28,8 @@
   "homepage": "https://github.com/syagawa/file-keeper#readme",
   "license": "MIT",
   "dependencies": {
-    "chokidar": "^3.4.3",
-    "dateformat": "^4.3.1",
+    "chokidar": "^3.5.0",
+    "dateformat": "^4.4.1",
     "log4js": "^6.3.0",
     "update-notifier": "^5.0.1",
     "yargs": "^16.2.0"
