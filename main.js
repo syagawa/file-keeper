@@ -143,7 +143,7 @@ async function startWatch(working_dir, dist_dir, exts){
       // console.log("ready",watcher.getWatched());
     })
     .on("add", function(filepath, p){
-      afterUpdate(filepath, p, exts, { message: "Target file added" });
+      afterUpdate(filepath, p, exts, { message: "Added" });
     })
     .on("change", function(filepath, p){
       afterUpdate(filepath, p, exts, { message: "Updated" });
@@ -191,7 +191,7 @@ function isTargetFile(filepath){
 }
 
 
-function copy(detail, dir){
+function copy(detail, dir, origin){
   const newname = detail.filename + "_" + modes[st.mode].format(detail) + detail.ename;
   try{
     fs.copyFileSync(detail.filepath, path.join(dir, newname) );
@@ -199,7 +199,7 @@ function copy(detail, dir){
     logger.error("Can't Copy: " + path.join(cwd, st.dist_dir, newname));
   }
 
-  logger.info("Copied: " + path.join(cwd, st.dist_dir, newname));
+  logger.info("Copied: " + origin + " => " + path.join(cwd, st.dist_dir, newname));
 }
 
 function isCacheLimitExceeded(detail){
@@ -231,7 +231,8 @@ function afterUpdate(filepath, p, exts, obj){
       logger.warn(`The maximum number of files that can be watched is ${st.max_watch_file_count}`);
       return;
     }
-    copy(filedetail, st.dist_dir);
+    const origin = path.join(st.working_dir, filepath);
+    copy(filedetail, st.dist_dir, origin);
   }
 }
 
@@ -272,7 +273,7 @@ function displayFirstMessage(type){
     if(type === "notargetfile"){
       logger.warn("No target file. exit...");
     }else{
-      logger.info(`Start ${pkg.name} version: ${pkg.version} !!`);
+      logger.info(`Start ${pkg.name} version: ${pkg.version} !!!`);
     }
 }
 
