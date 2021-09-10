@@ -15,6 +15,7 @@ const st = require("./settings.js")(argv);
 
 updateNotify();
 
+
 let logger;
 
 const modes = {
@@ -252,7 +253,7 @@ function updateNotify(){
     pkg
   });
 
-  const res = notifier.notify({
+  notifier.notify({
     isGlobal: true,
     boxenOpts: {padding: 1, margin: 1, align: 'center', borderColor: 'yellow', borderStyle: 'round'}
   });
@@ -285,7 +286,21 @@ function run(){
     log4js.configure(st.log_settings.only_console);
   }
   logger = log4js.getLogger("file-keeper");
+  
+  if(st.show_version){
+    const message = `file-keeper version is ${pkg.version}`
+    console.log(message);
+    process.exit(1);
+  }
 
+  if(st.show_help){
+    console.log("");
+    console.log(`start: $ file-keeper`);
+    console.log(`--------------------------------------`);
+    console.log(`options`);
+    console.log(`Output files in consecutive number: $ file-keeper -n`);
+    process.exit(1);
+  }
 
   if(st.working_dir === st.dist_dir){
     logger.warn(`Working directory and Distribution directory are the same path! ${st.working_dir}, ${st.dist_dir}`);
