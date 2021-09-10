@@ -1,6 +1,6 @@
 {
   "name": "file-keeper",
-  "version": "1.13.0",
+  "version": "1.14.0",
   "description": "Watch a file and copy at every time of saving a file.",
   "keywords": [
     "file",

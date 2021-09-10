@@ -96,6 +96,18 @@ const makeObj = function(argv){
       }
       return false;
     },
+    get show_version(){
+      if(this.argv["show-version"]){
+        return true;
+      }
+      return false;
+    },
+    get show_help(){
+      if(this.argv["show-help"]){
+        return true;
+      }
+      return false;
+    },
     log_settings:{
       only_console:{
         "appenders": { 
