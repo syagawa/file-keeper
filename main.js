@@ -278,6 +278,21 @@ function displayFirstMessage(type){
     }
 }
 
+function showHelp(){
+
+
+  console.log(`  file-keeper: file-keeper [options]`);
+  console.log(`  Options:`);
+  console.log(`    -n, --number,      Output files in consecutive number`);
+  console.log(`    --mode=number                                        `);
+  console.log(`    --exts=<.suffix>,  Set target file suffix.`);
+  console.log(`    --dir=<dir>,       Set watching directory.`);
+
+
+
+
+}
+
 function run(){
 
   if(st.is_save_log_file){
@@ -294,11 +309,7 @@ function run(){
   }
 
   if(st.show_help){
-    console.log("");
-    console.log(`start: $ file-keeper`);
-    console.log(`--------------------------------------`);
-    console.log(`options`);
-    console.log(`Output files in consecutive number: $ file-keeper -n`);
+    showHelp();
     process.exit(1);
   }
 
