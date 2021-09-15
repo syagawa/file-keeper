@@ -78,7 +78,7 @@ Specify a distribution directory.
 $ file-keeper --ddir=example_dist_folder
 ```
 
-**Clean Distribution Directory before Start**
+**Clean distribution directory before start**
 
 ```bash
 $ file-keeper --clean
@@ -111,3 +111,16 @@ $ file-keeper --save-log
   or
 $ file-keeper --save-logs
 ```
+
+**Show version**
+
+```bash
+$ file-keeper --show-version
+```
+
+**Show help**
+
+```bash
+$ file-keeper --show-help
+```
+

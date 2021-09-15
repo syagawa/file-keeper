@@ -279,17 +279,21 @@ function displayFirstMessage(type){
 }
 
 function showHelp(){
-
-
   console.log(`  file-keeper: file-keeper [options]`);
   console.log(`  Options:`);
   console.log(`    -n, --number,      Output files in consecutive number`);
   console.log(`    --mode=number                                        `);
   console.log(`    --exts=<.suffix>,  Set target file suffix.`);
-  console.log(`    --dir=<dir>,       Set watching directory.`);
-
-
-
+  console.log(`    --wdir=<dir>,      Specify a workind directory.`);
+  console.log(`    --ddir=<dir>,      Specify a distribution directory.`);
+  console.log(`    -c, --clean        Clean distribution directory before start.`);
+  console.log(`    -r, --recursive    Recursively watch files in lower watching directories.`);
+  console.log(`    --onlyupdate,      For file updates only.`);
+  console.log(`    --noadd, -u`);
+  console.log(`    --save-log,        Save log file.`);
+  console.log(`    --save-logs`);
+  console.log(`    --show-version     Show version.`);
+  console.log(`    --show-help        Show this help.`);
 
 }
 
