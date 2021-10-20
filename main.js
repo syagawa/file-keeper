@@ -1,5 +1,4 @@
 const chokidar = require("chokidar");
-const dateFormat = require("dateformat");
 const fs = require("fs");
 const argv = require("yargs").argv;
 const path = require("path");
@@ -15,8 +14,14 @@ const st = require("./settings.js")(argv);
 
 updateNotify();
 
-
 let logger;
+let dateFormat;
+
+async function importModules(){
+  dateFormat = await import("dateformat").then(res => {
+    return res.default
+  });
+}
 
 const modes = {
   datetime: {
@@ -297,7 +302,9 @@ function showHelp(){
 
 }
 
-function run(){
+async function run(){
+
+  await importModules();
 
   if(st.is_save_log_file){
     log4js.configure(st.log_settings.console_and_logfile);
