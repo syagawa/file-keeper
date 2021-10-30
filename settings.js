@@ -15,6 +15,13 @@ const makeObj = function(argv){
         return "dist";
       }
     },
+    get exc(){
+      if(this.argv.exc){
+        return argv.exc.split(",");
+      }else{
+        return [];
+      }
+    },
     get exts(){
       if(this.argv.exts){
         return argv.exts.split(",");
