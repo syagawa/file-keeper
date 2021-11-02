@@ -15,16 +15,32 @@ const makeObj = function(argv){
         return "dist";
       }
     },
-    get exc(){
-      if(this.argv.exc){
-        return argv.exc.split(",");
+    get excs(){
+      if(this.argv.excs){
+        const arr = argv.excs.split(",");
+        const new_arr = arr.map(s => {
+          if(s.match(/^\.{1}/)){
+            return s;
+          }else{
+            return `.${s}`;
+          }
+        });
+        return new_arr;
       }else{
         return [];
       }
     },
     get exts(){
       if(this.argv.exts){
-        return argv.exts.split(",");
+        const arr = argv.exts.split(",");
+        const new_arr = arr.map(s => {
+          if(s.match(/^\.{1}/)){
+            return s;
+          }else{
+            return `.${s}`;
+          }
+        });
+        return new_arr;
       }else{
         return [
           ".psd",
