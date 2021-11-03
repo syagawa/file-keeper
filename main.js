@@ -190,9 +190,13 @@ function getIgnoreRegExp(excs, dist_dir){
   const defaults = ["node_modules\/.*",".git"];
   let str = `${defaults.join("|")}`;
   if(Array.isArray(excs) && excs.length > 0){
-    str = `${str}|${excs.join("|")}`;
+    const new_excs = excs.map(s => {
+      return `${s}$`;
+    });
+    str = `${str}|${new_excs.join("|")}`;
   }
   str = `${str}|${dist_dir}`;
+  console.log("aaa", str);
   return new RegExp(str);
 }
 
@@ -279,10 +283,19 @@ function updateNotify(){
 }
 
 function displayFirstMessage(type){
+
+    const target_exts = [];
+    st.exts.map(s => {
+      if(st.excs.includes(s)){
+        return;
+      }else{
+        target_exts.push(s);
+      }
+    });
+
     logger.info(`Modes`);
     logger.info(`-- Save file mode: ${st.mode}`);
-    logger.info(`-- Extensions of target file: ${st.exts.join(" ")}`);
-    logger.info(`-- Extensions of excluding file: ${st.excs.join(" ")}`);
+    logger.info(`-- Target extensions: ${target_exts.join(" ")}`);
     logger.info(`-- Target directory: ${path.join(cwd,st.working_dir)}`);
     logger.info(`-- Distribution directory: ${path.join(cwd, st.dist_dir)}`);
     logger.info(`-- Recursive: ${st.recursive}`);
