@@ -58,6 +58,9 @@ $ file-keeper --exts=.jpg
 # Watch .jpg files & js files
 $ file-keeper --exts=.jpg.js
 
+# Not Watch .jpg files
+$ file-keeper --excs=.jpg
+
 ```
 
 **Working(watching) Directory**
