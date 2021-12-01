@@ -129,7 +129,7 @@ function isInitialFile(p){
   return false;
 }
 
-async function startWatch(working_dir, dist_dir, exts){
+async function startWatch(working_dir, dist_dir, exts, exc){
   if(st.only_update){
     st.initials = await setInitialFiles();
     const initials_length = Object.keys(st.initials).length;
@@ -143,7 +143,7 @@ async function startWatch(working_dir, dist_dir, exts){
   const watcher = chokidar.watch(
     working_dir,
     {
-      ignored:  new RegExp("node_modules\/.*|.git|" + dist_dir)
+      ignored:  getIgnoreRegExp(exc, dist_dir)
     })
     .on("ready", async function(){
       // console.log("ready",watcher.getWatched());
@@ -184,6 +184,13 @@ function isFirstDegree(filepath){
   if(dir === st.working_dir){
     return true;
   }
+}
+
+function getIgnoreRegExp(exc, dist_dir){
+  const default_regexp = "node_modules\/.*|.git|";
+  const exc_regexp = exc.join('|');
+  const ignore_regexp = default_regexp + exc_regexp + '|' + dist_dir;
+  return new RegExp(ignore_regexp);
 }
 
 function isTargetFile(filepath){
@@ -272,6 +279,7 @@ function displayFirstMessage(type){
     logger.info(`Modes`);
     logger.info(`-- Save file mode: ${st.mode}`);
     logger.info(`-- Extensions of target file: ${st.exts.join(" ")}`);
+    logger.info(`-- Extensions of excluding file: ${st.exc.join(" ")}`);
     logger.info(`-- Target directory: ${path.join(cwd,st.working_dir)}`);
     logger.info(`-- Distribution directory: ${path.join(cwd, st.dist_dir)}`);
     logger.info(`-- Recursive: ${st.recursive}`);
@@ -289,6 +297,7 @@ function showHelp(){
   console.log(`    -n, --number,      Output files in consecutive number`);
   console.log(`    --mode=number                                        `);
   console.log(`    --exts=<.suffix>,  Set target file suffix.`);
+  console.log(`    --exc=<.suffix>,   Set excluding file suffix.`);
   console.log(`    --wdir=<dir>,      Specify a workind directory.`);
   console.log(`    --ddir=<dir>,      Specify a distribution directory.`);
   console.log(`    -c, --clean        Clean distribution directory before start.`);
@@ -343,7 +352,7 @@ async function run(){
     cleanDirectory(st.dist_dir);
   }
 
-  startWatch(st.working_dir, st.dist_dir, st.exts);
+  startWatch(st.working_dir, st.dist_dir, st.exts, st.exc);
 
 }
 
