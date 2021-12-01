@@ -3,3 +3,10 @@ package-lock.json
 dist/*
 ws/*
 file-keeper.log
+*.txt
+*.doc
+*.docx
+*.html
+*.xls
+*.xlsx
+*.log
