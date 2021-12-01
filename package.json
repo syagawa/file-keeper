@@ -32,6 +32,6 @@
     "dateformat": "^5.0.2",
     "log4js": "^6.3.0",
     "update-notifier": "^5.1.0",
-    "yargs": "^17.2.1"
+    "yargs": "^17.3.0"
   }
 }
